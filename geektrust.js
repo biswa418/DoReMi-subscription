@@ -1,11 +1,10 @@
 const fs = require("fs");
+let subscription = require('./subscription');
+let Subscription = new subscription();
 
-// const filename = process.argv[2];
-const filename = './sample_input/input1.txt';
-data = fs.readFileSync(filename).toString().trim().split('\r\n');
+const filename = process.argv[2];
+// const filename = './sample_input/input2.txt';
 
-console.log(data);
+data = fs.readFileSync(filename).toString().trim().split('\n');
 
-// for (let i of data) {
-//     console.log(i.trim());
-// }
+Subscription.start(data);

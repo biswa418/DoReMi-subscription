@@ -21,11 +21,11 @@ describe("Test case -", () => {
         console.log("executes before every test");
     });
 
-    it("show output the amount", async () => {
+    it("show output the amount", () => {
 
         const temp = Subscription.start(data);
 
-        assert.equal(temp, "RENEWAL_REMINDER MUSIC 26-02-2022\nRENEWAL_REMINDER VIDEO 27-04-2022\nRENEWAL_REMINDER PODCAST 26-02-2022\nRENEWAL_AMOUNT 700");
+        assert.equal(temp, "RENEWAL_REMINDER MUSIC 23-02-2022\nRENEWAL_REMINDER VIDEO 25-04-2022\nRENEWAL_REMINDER PODCAST 23-02-2022\nRENEWAL_AMOUNT 700");
     });
 
 });

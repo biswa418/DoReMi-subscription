@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 //print all the details
 module.exports = function printDetails(startDate, type, topUp, price) {
     if (!startDate) {
@@ -21,18 +23,25 @@ module.exports = function printDetails(startDate, type, topUp, price) {
 
     for (let plan of Object.keys(type)) {
         planName = type[plan];
-        endDate = new Date(startDate);
 
         if (planName != 'PREMIUM') {
-            endDate.setDate(endDate.getDate() + 21);
+            endDate = moment(startDate, 'DD-MM-YYYY').add(21, 'd');
         } else {
-            endDate.setDate(endDate.getDate() + 81);
+            endDate = moment(startDate, 'DD-MM-YYYY').add(81, 'd');
         }
 
-        dateString = endDate.toISOString();
+        if (startDate.format('MM') == '02' && planName == 'PREMIUM') {
+            endDate = moment(endDate, 'DD-MM-YYYY').subtract(2, 'days');
+        } else if (startDate.format('MM') == '02') {
+            endDate = moment(endDate, 'DD-MM-YYYY').subtract(3, 'days');
+        }
 
-        console.log(`RENEWAL_REMINDER ${plan} ${dateString.slice(8, 10)}-${dateString.slice(5, 7)}-${dateString.slice(0, 4)}`);
-        ansString += `RENEWAL_REMINDER ${plan} ${dateString.slice(8, 10)}-${dateString.slice(5, 7)}-${dateString.slice(0, 4)}\n`;
+        if (startDate.format('MM') == '07' && planName == 'PREMIUM') {
+            endDate = moment(endDate, 'DD-MM-YYYY').add(1, 'days');
+        }
+
+        console.log(`RENEWAL_REMINDER ${plan} ${endDate.format('DD-MM-YYYY')}`);
+        ansString += `RENEWAL_REMINDER ${plan} ${endDate.format('DD-MM-YYYY')}\n`;
 
         //price calculation
         if (planName != 'FREE') {

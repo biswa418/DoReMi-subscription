@@ -1,4 +1,5 @@
 let Print = require('./printDetails');
+const moment = require('moment');
 
 module.exports = class Subscription {
     constructor() {
@@ -75,18 +76,10 @@ module.exports = class Subscription {
 
     startSub(line) {
         //set the date of the sub
-        try {
-            let [day, month, year] = line[1].split('-');
-            [day, month, year] = [parseInt(day), parseInt(month), parseInt(year)];
+        this.startDate = moment(line[1], 'DD-MM-YYYY');
 
-            //validity of date
-            if (month <= 12 && month >= 1) {
-                this.startDate = new Date([`${year}-${month}-${day}`, '05:30:00']);
-            } else {
-                throw console.error();
-            }
-
-        } catch (err) {
+        if (!this.startDate.isValid()) {
+            this.startDate = null;
             console.log('INVALID_DATE');
         }
     }
